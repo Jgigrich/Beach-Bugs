@@ -40,6 +40,13 @@ Player.prototype.update = function(dt) {
   if(this.keys[37]){this.x -= speed;}
   if(this.keys[38]){this.y -= speed;}
   if(this.keys[40]){this.y += speed;}
+  this.constrain();
+}
+
+//  adapted from http://www.hnldesign.nl/work/code/javascript-limit-integer-min-max/
+Player.prototype.constrain = function() {
+    this.x = Math.min(420, Math.max(-16, this.x));
+    this.y = Math.min(445, Math.max(-10, this.y));
 }
 
 Player.prototype.render = function() {
