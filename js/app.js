@@ -4,19 +4,21 @@ var Enemy = function(x, y, speed) {
     this.y = y;
     this.speed = speed;
     this.sprite = 'images/enemy-bug.png';
+    this.bbOffsets = [10, 80, 80, 60]; //collision bounding box offests from x,y  [x,y,w,h]
 };
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
     this.x += this.speed * dt * 100;
+    this.collision();
     this.reset();
 };
 
 Enemy.prototype.reset = function() {
   if(this.x > 500) {
     this.x = Math.floor(Math.random()*-200 - 200);
-    this.y = Math.floor(Math.random()*170 + 60);
+    this.y = Math.floor(Math.random()*250 + 60);
     this.speed = Math.random()*3 + 0.5;
   }
 }
@@ -24,7 +26,20 @@ Enemy.prototype.reset = function() {
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    ctx.strokeStyle = 'red';
+    //ctx.strokeRect(this.x+10, this.y+80, 80, 60);  //bounding box  -- temp
+};
 
+Enemy.prototype.collision = function() {
+    const e = this.bbOffsets;
+    const p = player.bbOffsets;
+    if( this.x+e[0] < player.x+p[0]+p[2] &&
+        this.x+e[0]+e[2] > player.x+p[0] &&
+        this.y+e[1] < player.y+p[1]+p[3] &&
+        this.y+e[1]+e[3] > player.y+p[1]
+    ) {
+      player.reset();
+    }
 };
 
 // Now write your own player class
@@ -35,7 +50,8 @@ const Player = function(name) {
   this.x = 200;
   this.y = 430;
   this.speed = 1;
-  this.sprite = 'images/char-cat-girl.png'
+  this.sprite = 'images/char-cat-girl.png';
+  this.bbOffsets = [24, 60, 54, 76]; //collision bounding box offests from x,y  [x,y,w,h]
   this.keys = [];
 };
 
@@ -57,17 +73,20 @@ Player.prototype.constrain = function() {
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     ctx.strokeStyle = 'red';
-    ctx.strokeRect(this.x+24, this.y+60, 54, 66);  //bounding box  -- temp
+    //ctx.strokeRect(this.x+24, this.y+60, 54, 76);  //bounding box  -- temp
 };
 
-
+Player.prototype.reset = function() {
+  this.x = 200;
+  this.y = 430;
+};
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 const allEnemies = [];
 for(let i=0; i<4; i++) {
   let x = Math.floor(Math.random()*-400 - 200);
-  let y = Math.floor(Math.random()*170 + 60);
+  let y = Math.floor(Math.random()*250 + 60);
   let speed = Math.random()*3 + 0.5;
   allEnemies.push(new Enemy(x, y, speed));
 }
