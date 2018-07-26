@@ -1,3 +1,12 @@
+let fenceOn = true;
+function fence() {
+    if(fenceOn) {
+      let opacity = Math.random()*0.5 + 0.5;
+      ctx.fillStyle = `rgba(255, 0, 0, ${opacity}`;
+      ctx.fillRect(0, 130, 505, 6);
+    }
+}
+
 // Enemies our player must avoid
 var Enemy = function(x, y, speed) {
     this.x = x;
@@ -117,8 +126,9 @@ Player.prototype.update = function(dt) {
 
 //  adapted from http://www.hnldesign.nl/work/code/javascript-limit-integer-min-max/
 Player.prototype.constrain = function() {
+    let yMin = fenceOn ? 74 : -10;
     this.x = Math.min(420, Math.max(-16, this.x));
-    this.y = Math.min(445, Math.max(-10, this.y));
+    this.y = Math.min(445, Math.max(yMin, this.y));
 }
 
 Player.prototype.render = function() {
@@ -144,7 +154,6 @@ for(let i=0; i<3; i++) {
 }
 const key1 = new Key(-100, 130, 1);
 const player = new Player("Jill");
-
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
