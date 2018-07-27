@@ -118,6 +118,7 @@ const Player = function() {
   this.won = false;
 };
 
+// Parameter: dt, a time delta between ticks
 Player.prototype.update = function(dt) {
   const speed = this.speed * dt * 100;
   if(this.keys[39] || this.keys[68]){this.x += speed;}
@@ -165,6 +166,7 @@ for(let i=0; i<3; i++) {
 const key1 = new Key(-100, 130, 1); // create the key
 const player = new Player();  // create the player
 
+// The control box to turn off the fence
 const control = {
         x: 20,
         y: 480,
@@ -188,18 +190,18 @@ collision: function() {
 };
 
 const winner = {
-    canRestart: false,
-    render: function(){
-      ctx.fillStyle = '#fff';
-      ctx.fillRect(155,135,200,200);
-      ctx.fillStyle = '#000';
-      ctx.font = '30px Arial';
-      ctx.fillText('Splash!', 205, 180);
-      ctx.font = '20px Arial';
-      ctx.fillText('You made it!!!', 195, 210);
-      ctx.fillText('Press any key', 195, 260);
-      ctx.fillText('to play again', 200, 282);
-    }
+  canRestart: false,
+      render: function(){
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(155,135,200,200);
+        ctx.fillStyle = '#000';
+        ctx.font = '30px Arial';
+        ctx.fillText('Splash!', 205, 180);
+        ctx.font = '20px Arial';
+        ctx.fillText('You made it!!!', 195, 210);
+        ctx.fillText('Press any key', 195, 260);
+        ctx.fillText('to play again', 200, 282);
+      }
 };
 
 function restart() {
