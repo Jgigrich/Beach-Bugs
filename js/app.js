@@ -3,7 +3,7 @@ const fence = {
     isOn: true,
   render: function (){
             if(this.isOn) {
-              let opacity = Math.random()*0.5 + 0.5;
+              let opacity = Math.random()*0.7 + 0.3;
               ctx.fillStyle = `rgba(255, 0, 0, ${opacity}`;
               ctx.fillRect(0, 130, 505, 6);
             }
