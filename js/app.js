@@ -1,11 +1,13 @@
-let fenceOn = true;
-function fence() {
-    if(fenceOn) {
-      let opacity = Math.random()*0.5 + 0.5;
-      ctx.fillStyle = `rgba(255, 0, 0, ${opacity}`;
-      ctx.fillRect(0, 130, 505, 6);
-    }
-}
+const fence = {
+    isOn: true,
+  render: function (){
+            if(this.isOn) {
+              let opacity = Math.random()*0.5 + 0.5;
+              ctx.fillStyle = `rgba(255, 0, 0, ${opacity}`;
+              ctx.fillRect(0, 130, 505, 6);
+            }
+          }
+};
 
 // Enemies our player must avoid
 var Enemy = function(x, y, speed) {
@@ -56,7 +58,7 @@ Enemy.prototype.collision = function() {
       key1.reset();
       key1.captured = false;
       key1.used = false;
-      fenceOn = true;
+      fence.isOn = true;
     }
 };
 
@@ -92,7 +94,6 @@ Key.prototype.reset = function() {
     this.x = Math.floor(Math.random()*-200 - 200);
     this.y = 130;
     this.speed = 1;
-    //this.speed = Math.random()*3 + 0.5;
   }
 }
 
@@ -139,7 +140,7 @@ Player.prototype.update = function(dt) {
 
 //  adapted from http://www.hnldesign.nl/work/code/javascript-limit-integer-min-max/
 Player.prototype.constrain = function() {
-    let yMin = fenceOn ? 74 : -10;
+    let yMin = fence.isOn ? 74 : -10;
     this.x = Math.min(420, Math.max(-16, this.x));
     this.y = Math.min(445, Math.max(yMin, this.y));
 }
@@ -183,7 +184,7 @@ bbOffsets: [15, 62, 28, 28],
            },
 collision: function() {
               if(Enemy.prototype.collided.call(this) && key1.captured) {
-                fenceOn = false;
+                fence.isOn = false;
                 key1.captured = false;
                 key1.used = true;
               }
@@ -212,7 +213,7 @@ function restart() {
   player.reset();
   key1.reset();
   key1.used = false;
-  fenceOn = true;
+  fence.isOn = true;
 }
 
 // This listens for key presses and sends the keys to your

@@ -141,7 +141,7 @@ var Engine = (function(global) {
         }
 
         renderEntities();
-        fence();
+        fence.render();
         if(player.won) {
           winner.render();
         }
