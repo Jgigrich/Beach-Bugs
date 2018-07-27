@@ -78,8 +78,8 @@ var Engine = (function(global) {
      * on the entities themselves within your app.js file).
      */
     function update(dt) {
-        updateEntities(dt);
-        // checkCollisions();
+        if(player.won) {}
+        else {updateEntities(dt);}
     }
 
     /* This is called by the update function and loops through all of the
@@ -142,6 +142,9 @@ var Engine = (function(global) {
 
         renderEntities();
         fence();
+        if(player.won) {
+          winner.render();
+        }
     }
 
     /* This function is called by the render function and is called on each game
