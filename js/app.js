@@ -126,10 +126,10 @@ const Player = function(name) {
 
 Player.prototype.update = function(dt) {
   const speed = this.speed * dt * 100;
-  if(this.keys[39]){this.x += speed;}
-  if(this.keys[37]){this.x -= speed;}
-  if(this.keys[38]){this.y -= speed;}
-  if(this.keys[40]){this.y += speed;}
+  if(this.keys[39] || this.keys[68]){this.x += speed;}
+  if(this.keys[37] || this.keys[65]){this.x -= speed;}
+  if(this.keys[38] || this.keys[87]){this.y -= speed;}
+  if(this.keys[40] || this.keys[83]){this.y += speed;}
   this.constrain();
   if(this.y < -9) {
     this.won = true;
