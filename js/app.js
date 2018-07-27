@@ -1,3 +1,4 @@
+// a barrier that keeps the player from winning until turned off
 const fence = {
     isOn: true,
   render: function (){
@@ -15,7 +16,7 @@ var Enemy = function(x, y, speed) {
     this.y = y;
     this.speed = speed;
     this.sprite = 'images/enemy-bug.png';
-    this.bbOffsets = [10, 80, 80, 60]; //collision bounding box offests from x,y  [x,y,w,h]
+    this.boundingBox = [10, 80, 80, 60]; //collision bounding box [x offset, y offset, width, height]
 };
 
 // Update the enemy's position, required method for game
@@ -37,13 +38,11 @@ Enemy.prototype.reset = function() {
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    ctx.strokeStyle = 'red';
-    //ctx.strokeRect(this.x+10, this.y+80, 80, 60);  //bounding box  -- temp
 };
 
 Enemy.prototype.collided = function() {
-  const e = this.bbOffsets;
-  const p = player.bbOffsets;
+  const e = this.boundingBox;
+  const p = player.boundingBox;
   if( this.x+e[0] < player.x+p[0]+p[2] &&
       this.x+e[0]+e[2] > player.x+p[0] &&
       this.y+e[1] < player.y+p[1]+p[3] &&
@@ -62,13 +61,12 @@ Enemy.prototype.collision = function() {
     }
 };
 
-
 const Key = function(x, y, speed) {
     this.x = x;
     this.y = y;
     this.speed = speed;
     this.sprite = 'images/key.png';
-    this.bbOffsets = [14, 28, 20, 40]; //collision bounding box offsets from x,y  [x,y,w,h]
+    this.boundingBox = [14, 28, 20, 40]; //collision bounding box [x offset, y offset, width, height]
     this.captured = false;
     this.used = false;
 };
@@ -99,8 +97,6 @@ Key.prototype.reset = function() {
 
 Key.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y, 50, 80);
-    ctx.strokeStyle = 'red';
-    //ctx.strokeRect(this.x+14, this.y+28, 20, 40);  //bounding box  -- temp
 };
 
 // Key.collision uses the collided method on Enemy to detect a collision
@@ -111,16 +107,14 @@ Key.prototype.collision = function() {
 };
 
 // Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
-const Player = function(name) {
-  this.name = name;
+// This class requires update() and render() methods
+const Player = function() {
   this.x = 200;
   this.y = 430;
   this.speed = 1;
   this.sprite = 'images/char-cat-girl.png';
-  this.bbOffsets = [24, 60, 54, 76]; //collision bounding box offests from x,y  [x,y,w,h]
-  this.keys = [];
+  this.boundingBox = [24, 60, 54, 76]; //collision bounding box [x offset, y offset, width, height]
+  this.keys = []; // stores keyboard key presses
   this.won = false;
 };
 
@@ -147,8 +141,6 @@ Player.prototype.constrain = function() {
 
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    ctx.strokeStyle = 'red';
-    //ctx.strokeRect(this.x+24, this.y+60, 54, 76);  //bounding box  -- temp
 };
 
 Player.prototype.reset = function() {
@@ -166,20 +158,20 @@ for(let i=0; i<3; i++) {
   let speed = Math.random()*2 + 0.5;
   allEnemies.push(new Enemy(x, y, speed));
 }
-const key1 = new Key(-100, 130, 1);
-const player = new Player("Jill");
+const key1 = new Key(-100, 130, 1); // create the key
+const player = new Player();  // create the player
 
 const control = {
         x: 20,
         y: 480,
    sprite: 'images/Selector.png',
-bbOffsets: [15, 62, 28, 28],
+boundingBox: [15, 62, 28, 28],
    render: function() {
              ctx.drawImage(Resources.get(this.sprite), this.x, this.y, 60, 100);
              ctx.fillStyle = '#000';
              ctx.font = '20px Arial';
-             ctx.fillText("Fence", 20, 500);
-             ctx.fillText("Control", 16, 520);
+             ctx.fillText('Fence', 20, 500);
+             ctx.fillText('Control', 16, 520);
              this.collision();
            },
 collision: function() {
@@ -198,12 +190,11 @@ const winner = {
       ctx.fillRect(155,135,200,200);
       ctx.fillStyle = '#000';
       ctx.font = '30px Arial';
-      ctx.fillText("Splash!", 205, 180);
+      ctx.fillText('Splash!', 205, 180);
       ctx.font = '20px Arial';
-      ctx.fillText("You made it!!!", 195, 210);
-      ctx.fillText("Press any key", 195, 260);
-      ctx.fillText("to play again", 200, 282);
-      //ctx.fillText("Control", 16, 520);
+      ctx.fillText('You made it!!!', 195, 210);
+      ctx.fillText('Press any key', 195, 260);
+      ctx.fillText('to play again', 200, 282);
     }
 };
 
@@ -216,9 +207,7 @@ function restart() {
   fence.isOn = true;
 }
 
-// This listens for key presses and sends the keys to your
-// Player.handleInput() method. You don't need to modify this.
-
+// This listens for key presses
 document.addEventListener('keydown', function(e) {
     if(player.won && winner.canRestart) {
         restart();
