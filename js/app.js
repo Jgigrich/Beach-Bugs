@@ -70,7 +70,11 @@ const Key = function(x, y, speed) {
 };
 
 Key.prototype.update = function(dt) {
-    if(this.captured) {
+    if(this.used) {
+      this.x = -100;
+      this.speed = 0;
+    }
+    else if(this.captured) {
       this.x = player.x+26;
       this.y = player.y+60;
     }
@@ -166,6 +170,28 @@ document.addEventListener('keydown', function(e) {
 document.addEventListener('keyup', function(e) {
     player.keys[e.keyCode] = false;
 });
+
+const control = {
+        x: 20,
+        y: 480,
+   sprite: 'images/Selector.png',
+bbOffsets: [15, 62, 28, 28],
+   render: function() {
+             ctx.drawImage(Resources.get(this.sprite), this.x, this.y, 60, 100);
+             ctx.fillStyle = '#000';
+             ctx.font = '20px Arial';
+             ctx.fillText("Fence", 20, 500);
+             ctx.fillText("Control", 16, 520);
+             this.collision();
+           },
+collision: function() {
+              if(Enemy.prototype.collided.call(this) && key1.captured) {
+                fenceOn = false;
+                key1.captured = false;
+                key1.used = true;
+              }
+           }
+};
 
 /*
 document.addEventListener('keyup', function(e) {
