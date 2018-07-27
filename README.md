@@ -4,7 +4,7 @@ Get to the water without touching a bug! A practice game.
 ## How to:
 
 ##### Run the game
-https://github.com/Jgigrich/Beach-Bugs
+https://jgigrich.github.io/Beach-Bugs/
 And if you fork and clone the repo to a local repository just run the index.html file
 
 ##### Play the game
