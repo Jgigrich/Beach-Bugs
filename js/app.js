@@ -33,7 +33,7 @@ Enemy.prototype.reset = function() {
     this.y = Math.floor(Math.random()*250 + 60);
     this.speed = Math.random()*2 + 0.5;
   }
-}
+};
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
@@ -49,7 +49,7 @@ Enemy.prototype.collided = function() {
       this.y+e[1]+e[3] > player.y+p[1]
   ) {return true;}
   return false;
-}
+};
 
 Enemy.prototype.collision = function() {
     if(this.collided()) {
@@ -93,7 +93,7 @@ Key.prototype.reset = function() {
     this.y = 130;
     this.speed = 1;
   }
-}
+};
 
 Key.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y, 50, 80);
@@ -125,19 +125,23 @@ Player.prototype.update = function(dt) {
   if(this.keys[38] || this.keys[87]){this.y -= speed;}
   if(this.keys[40] || this.keys[83]){this.y += speed;}
   this.constrain();
+  this.win();
+};
+
+Player.prototype.win = function() {
   if(this.y < -9) {
     this.won = true;
     setTimeout(()=>{winner.canRestart = true;}, 1500);
     this.y = -8;
   }
-}
+};
 
 //  adapted from http://www.hnldesign.nl/work/code/javascript-limit-integer-min-max/
 Player.prototype.constrain = function() {
     let yMin = fence.isOn ? 74 : -10;
     this.x = Math.min(420, Math.max(-16, this.x));
     this.y = Math.min(445, Math.max(yMin, this.y));
-}
+};
 
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
