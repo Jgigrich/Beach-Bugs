@@ -157,7 +157,7 @@ Player.prototype.reset = function() {
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 const allEnemies = [];
-for(let i=0; i<3; i++) {
+for(let i=0; i<4; i++) {
   let x = Math.floor(Math.random()*-400 - 200);
   let y = Math.floor(Math.random()*250 + 60);
   let speed = Math.random()*2 + 0.5;
