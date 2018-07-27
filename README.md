@@ -1,6 +1,17 @@
-frontend-nanodegree-arcade-game
-===============================
+# Beach Bugs
+Get to the water without touching a bug! A practice game.
 
-Students should use this [rubric](https://review.udacity.com/#!/projects/2696458597/rubric) for self-checking their submission. Make sure the functions you write are **object-oriented** - either class functions (like Player and Enemy) or class prototype functions such as Enemy.prototype.checkCollisions, and that the keyword 'this' is used appropriately within your class and class prototype functions to refer to the object the function is called upon. Also be sure that the **readme.md** file is updated with your instructions on both how to 1. Run and 2. Play your arcade game.
+## How to:
 
-For detailed instructions on how to get started, check out this [guide](https://docs.google.com/document/d/1v01aScPjSWCCWQLIpFqvg3-vXLH2e8_SZQKC8jNO0Dc/pub?embedded=true).
+##### Run the game
+https://github.com/Jgigrich/Beach-Bugs
+And if you fork and clone the repo to a local repository just run the index.html file
+
+##### Play the game
+Control your player with the arrow keys or the wasd keys.
+
+You just want to run arcross the road and jump into the water, but not only are there bugs everywhere they forgot to turn off the red electric fence!
+
+The key you need to turn off the fence is yellow and often floats near the fence. Grab this key and bring it back to the fence control to turn off the fence. Then make a run for water, making sure to avoid the bugs.
+
+Any bug contact and you start over. Have fun!
